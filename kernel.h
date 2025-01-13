@@ -67,8 +67,16 @@ struct trap_frame {
 #define PROC_RUNNABLE 1  // Runnable process
 
 struct process {
-    int pid;              // Process ID
-    int state;            // Process state: PROC_UNUSED or PROC_RUNNABLE
-    vaddr_t sp;           // Stack pointer
-    uint8_t stack[8192];  // Kernel stack
+    int pid;               // Process ID
+    int state;             // Process state: PROC_UNUSED or PROC_RUNNABLE
+    vaddr_t sp;            // Stack pointer
+    uint32_t* page_table;  // Page table
+    uint8_t stack[8192];   // Kernel stack
 };
+
+#define SATP_SV32 (1 << 31)  // enable SV32 paging flag
+#define PAGE_V (1 << 0)      // Valid flag
+#define PAGE_R (1 << 1)      // Readable flag
+#define PAGE_W (1 << 2)      // Writeable flag
+#define PAGE_X (1 << 3)      // Executeable flag
+#define PAGE_U (1 << 4)      // User flag (accessible in user mode)
